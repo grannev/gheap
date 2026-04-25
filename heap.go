@@ -1,4 +1,4 @@
-package heap
+package gheap
 
 import (
 	"fmt"
