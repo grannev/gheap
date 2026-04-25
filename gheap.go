@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-// ================PACKAGE SPACE=====================
 type IHeap interface {
 	AddItem(value int)
 	expandHeap(heap *Heap, count int)
@@ -45,4 +44,12 @@ func (heap *Heap) AddItem(value int) {
 	expandHeap(heap, 1)
 	heap.memory[heap.size-1] = value
 	swapRecursive(heap, heap.size)
+}
+
+func (heap Heap) Print() {
+	fmt.Println(heap)
+}
+
+func (heap Heap) Size() int {
+	return heap.size
 }
