@@ -69,7 +69,7 @@ func (heap *Heap) Pop(value int) int {
 }
 
 func (heap Heap) Print() {
-	fmt.Println(heap)
+	fmt.Println(heap.memory[:])
 }
 
 func (heap Heap) Size() int {
