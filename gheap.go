@@ -5,7 +5,12 @@ import (
 )
 
 type IHeap interface {
-	AddItem(value int)
+	Insert(value int)
+	Pop(value int) int
+	Size() int
+	Max() int
+	Print()
+
 	expandHeap(heap *Heap, count int)
 	swapItemsHeap(heap *Heap, i, j int)
 }
@@ -16,7 +21,18 @@ func swapItemsHeap(heap *Heap, i, j int) {
 }
 
 func expandHeap(heap *Heap, count int) {
-	heap.memory = append(heap.memory, make([]int, count)...)
+	if count == 0 {
+		return
+	}
+
+	if count < 0 {
+		heap.memory = heap.memory[(count * -1):]
+	}
+
+	for range count {
+		heap.memory = append(heap.memory, 0)
+	}
+	heap.size += count
 }
 
 func swapRecursive(heap *Heap, index int) {
@@ -31,7 +47,6 @@ func swapRecursive(heap *Heap, index int) {
 		swapItemsHeap(heap, index-1, parrent_index-1)
 		swapRecursive(heap, parrent_index)
 	}
-	fmt.Println(heap.memory)
 }
 
 // ================USER SPACE=====================
@@ -40,10 +55,17 @@ type Heap struct {
 	size   int
 }
 
-func (heap *Heap) AddItem(value int) {
+func (heap *Heap) Insert(value int) {
 	expandHeap(heap, 1)
 	heap.memory[heap.size-1] = value
 	swapRecursive(heap, heap.size)
+}
+
+func (heap *Heap) Pop(value int) int {
+	mx := heap.Max()
+	expandHeap(heap, -1)
+	swapRecursive(heap, heap.size)
+	return mx
 }
 
 func (heap Heap) Print() {
@@ -52,4 +74,8 @@ func (heap Heap) Print() {
 
 func (heap Heap) Size() int {
 	return heap.size
+}
+
+func (heap Heap) Max() int {
+	return heap.memory[0]
 }
